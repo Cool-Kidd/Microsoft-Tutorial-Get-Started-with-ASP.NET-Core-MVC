@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Data;
+using MvcMovie.Models;
 
 namespace MvcMovie
 {
@@ -34,6 +35,12 @@ namespace MvcMovie
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                SeedData.Initialize(services);
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
